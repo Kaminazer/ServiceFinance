@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Currencies;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public function show(Request $request): View
+    {
+        return view('dashboard', [
+            'user' => $request->user(),
+            'currencies' => Currencies::all(),
+        ]);
+    }
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -28,9 +36,9 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
+/*        if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
-        }
+        }*/
 
         $request->user()->save();
 
@@ -57,4 +65,5 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
 }

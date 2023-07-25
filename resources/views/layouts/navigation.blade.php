@@ -41,11 +41,11 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Edit') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('settings')">
                             {{ __('Settings') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('accounts.create')">
                             {{ __('Account management') }}
                         </x-dropdown-link>
 

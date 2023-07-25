@@ -9,8 +9,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+                    {{ __("User Information") }}
+                    <p class="mt-1 text-sm text-gray-600">
+                        {{$user->name}}
+                        <br>
+                        {{$user->email}}
+                        <br>
+                        {{$user->default_currency}}
+                    </p>
             </div>
         </div>
     </div>
