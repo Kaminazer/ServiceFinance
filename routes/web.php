@@ -30,5 +30,4 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/settings',[SettingsController::class, 'show'])->middleware(['auth', 'verified'])->name('settings');
 Route::resource('accounts', AccountsController::class);
-
 require __DIR__.'/auth.php';

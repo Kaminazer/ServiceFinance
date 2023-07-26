@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Currencies;
+use App\Http\Requests\AccountsRequest;
+use App\Models\Account;
+use App\Models\Currency;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class AccountsController extends Controller
 {
@@ -12,7 +17,6 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -21,15 +25,21 @@ class AccountsController extends Controller
     public function create()
     {
         return view("accounts.accounts",[
-            'currencies' => Currencies::all(),
+            'currencies' => Currency::all(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AccountsRequest $request): RedirectResponse
     {
+       $account = Account::create([
+            'name' => $request->name,
+            'currency' => $request->currency,
+            'user_id' => $request->user()->id,
+        ]);
+        return Redirect::route('accounts.create');
     }
 
     /**
