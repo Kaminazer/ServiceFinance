@@ -12,7 +12,7 @@ class SettingsController extends Controller
 {
     public function show(): View
     {
-        return view('settings', [
+        return view('profile.settings', [
             'currencies' => Currency::all(),
         ]);
     }
@@ -20,6 +20,6 @@ class SettingsController extends Controller
     {
         $request->user()->fill($request->validated());
         $request->user()->save();
-        return Redirect::route('settings')->with('status', 'currency-updated');
+        return Redirect::route('settings.setSettings')->with('status', 'currency-updated');
     }
 }

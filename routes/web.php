@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("welcome");
 
-Route::get('/dashboard',[ProfileController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::patch('/dashboard',[SettingsController::class, 'setSettings'])->middleware(['auth', 'verified'])->name('settings.setSettings');
+Route::get('/profile',[ProfileController::class, 'show'])->middleware(['auth', 'verified'])->name('profile.show');
+Route::patch('/settings',[SettingsController::class, 'setSettings'])->middleware(['auth', 'verified'])->name('settings.setSettings');
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

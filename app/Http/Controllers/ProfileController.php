@@ -17,7 +17,7 @@ class ProfileController extends Controller
      */
     public function show(Request $request): View
     {
-        return view('dashboard', [
+        return view('profile.main', [
             'user' => $request->user(),
             'currencies' => Currency::all(),
             'accounts' => $request->user()->accounts,

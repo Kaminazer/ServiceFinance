@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AccountsRequest;
 use App\Models\Account;
 use App\Models\Currency;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class AccountsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         return view('accounts.accounts',[
             'accounts' => $request->user()->Accounts,
@@ -25,7 +25,7 @@ class AccountsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view("accounts.create-accounts",[
             'currencies' => Currency::all(),
@@ -37,26 +37,17 @@ class AccountsController extends Controller
      */
     public function store(AccountsRequest $request): RedirectResponse
     {
-       $account = Account::create([
+      Account::create([
             'name' => $request->name,
             'currency' => $request->currency,
             'user_id' => $request->user()->id,
         ]);
         return Redirect::route('accounts.index');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
         return view('accounts.edit-accounts',
             [
@@ -69,7 +60,7 @@ class AccountsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AccountsRequest $request, string $id)
+    public function update(AccountsRequest $request, string $id): RedirectResponse
     {
         $account = Account::findOrFail($id);
         $account->fill($request->validated());
@@ -82,11 +73,11 @@ class AccountsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $account = Account::findOrFail($id);
-        $noTracsaction = false;
-        if ($noTracsaction){
+        $noTransaction = false;
+        if ($noTransaction){
             $account->delete();
         }
         return Redirect::route('accounts.index');
