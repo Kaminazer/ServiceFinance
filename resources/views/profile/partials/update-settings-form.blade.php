@@ -19,8 +19,6 @@
             @foreach ($currencies as $currency)
                 <option value="{{ $currency->name }}">{{ $currency->name }}</option>
             @endforeach
-
-
         </select>
         <x-input-error class="mt-2" :messages="$errors->get('default_currency')" />
     </div>

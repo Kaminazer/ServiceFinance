@@ -17,6 +17,14 @@
                         <br>
                         {{$user->default_currency}}
                     </p>
+                    <div class="p-6 text-gray-900">
+                        <p>{{ __("Accounts user`s") }}</p>
+                        <ul>
+                            @foreach($accounts as $account)
+                                <li>{{$account -> name}} <a href="{{route('accounts.edit', ['account'=>$account->id])}}">{{__("Change")}}</a> </li>
+                            @endforeach
+                        </ul>
+                    </div>
             </div>
         </div>
     </div>

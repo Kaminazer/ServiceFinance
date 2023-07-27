@@ -20,6 +20,7 @@ class ProfileController extends Controller
         return view('dashboard', [
             'user' => $request->user(),
             'currencies' => Currency::all(),
+            'accounts' => $request->user()->accounts,
         ]);
     }
     public function edit(Request $request): View

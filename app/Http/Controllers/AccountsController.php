@@ -15,8 +15,11 @@ class AccountsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        return view('accounts.accounts',[
+            'accounts' => $request->user()->Accounts,
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class AccountsController extends Controller
      */
     public function create()
     {
-        return view("accounts.accounts",[
+        return view("accounts.create-accounts",[
             'currencies' => Currency::all(),
         ]);
     }
@@ -39,7 +42,7 @@ class AccountsController extends Controller
             'currency' => $request->currency,
             'user_id' => $request->user()->id,
         ]);
-        return Redirect::route('accounts.create');
+        return Redirect::route('accounts.index');
     }
 
     /**
@@ -55,15 +58,25 @@ class AccountsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('accounts.edit-accounts',
+            [
+                'account'=>$id,
+                'currencies' => Currency::all(),
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AccountsRequest $request, string $id)
     {
-        //
+        $account = Account::findOrFail($id);
+        $account->fill($request->validated());
+
+        $account->save();
+
+        return Redirect::route('accounts.index')->with('status', 'profile-updated');
     }
 
     /**
@@ -71,6 +84,11 @@ class AccountsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $account = Account::findOrFail($id);
+        $noTracsaction = false;
+        if ($noTracsaction){
+            $account->delete();
+        }
+        return Redirect::route('accounts.index');
     }
 }

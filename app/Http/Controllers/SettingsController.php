@@ -18,8 +18,7 @@ class SettingsController extends Controller
     }
     public function setSettings(ProfileUpdateRequest $request): RedirectResponse
     {
-        $validatedData = $request->validated();
-        $request->user()->fill($validatedData);
+        $request->user()->fill($request->validated());
         $request->user()->save();
         return Redirect::route('settings')->with('status', 'currency-updated');
     }
