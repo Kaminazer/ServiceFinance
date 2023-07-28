@@ -30,6 +30,10 @@
                     <x-nav-link :href="route('accounts.index')" :active="request()->routeIs('accounts.index')">
                         {{ __('Accounts management') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
+                        {{ __('Transactions') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -62,6 +66,10 @@
 
                         <x-dropdown-link :href="route('accounts.index')">
                             {{ __('Account management') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('transactions.index')">
+                            {{ __('Transactions') }}
                         </x-dropdown-link>
 
 

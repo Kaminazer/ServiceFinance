@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CurrenciesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +31,5 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/settings',[SettingsController::class, 'show'])->middleware(['auth', 'verified'])->name('settings');
 Route::resource('accounts', AccountsController::class);
+Route::resource('transactions', TransactionController::class);
 require __DIR__.'/auth.php';
