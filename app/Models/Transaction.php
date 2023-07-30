@@ -17,18 +17,18 @@ class Transaction extends Model
         'description'
     ];
 
-    protected array $Types = [
+    static protected array $Types = [
         'Income',
         'Expense',
     ];
 
-    public function accounts(): BelongsTo
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function getTypes(): array
+    static function getTypes(): array
     {
-        return $this->Types;
+        return self::$Types;
     }
 }

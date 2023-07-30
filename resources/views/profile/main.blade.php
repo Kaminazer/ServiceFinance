@@ -39,6 +39,14 @@
                     </ul>
                 </div>
             </div>
+            <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg">
+                <div class="max-w-xl">
+                    <h2 class="text-lg font-bold text-gray-900">
+                        {{__("Total balance") }}
+                    </h2>
+                    <p class="pl-2 pt-1">{{$totalBalance}}</p>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

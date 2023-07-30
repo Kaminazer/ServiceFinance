@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Account;
 use App\Models\Currency;
+use App\Services\TotalBalanceService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +17,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function show(Request $request): View
+    public function show(Request $request, TotalBalanceService $service): View
     {
         return view('profile.main', [
             'user' => $request->user(),
             'currencies' => Currency::all(),
             'accounts' => $request->user()->accounts,
+            'totalBalance'=>$service->calculate(),
         ]);
     }
     public function edit(Request $request): View

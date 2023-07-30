@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountsRequest;
+use App\Http\Requests\TransactionsCreatedRequest;
 use App\Models\Account;
 use App\Models\Currency;
+use App\Models\Transaction;
+use App\Services\TransferService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -35,13 +38,23 @@ class AccountsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountsRequest $request): RedirectResponse
+    public function store(AccountsRequest $request, TransferService $service): RedirectResponse
     {
-      Account::create([
+      $account = Account::create([
             'name' => $request->name,
             'currency' => $request->currency,
             'user_id' => $request->user()->id,
         ]);
+      if ($request->balance > 0){
+          $transaction = Transaction::create([
+              'date' => now(),
+              'type' => 'Income',
+              'account_id' => $account->id,
+              'sum' => $request->balance,
+              'description' => 'Initial balance',
+          ]);
+          $service->transfer($transaction);
+      }
         return Redirect::route('accounts.index');
     }
     /**

@@ -26,6 +26,12 @@
                             </select>
                         </div>
 
+                        <div>
+                            <x-input-label for="balance" :value="__('Start Balance')" />
+                            <x-text-input id="balance" name="balance" type="number" class="mt-1 block w-full"/>
+                            <x-input-error :messages="$errors->accountBalance->get('balance')" class="mt-2" />
+                        </div>
+
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>
