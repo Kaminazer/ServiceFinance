@@ -84,8 +84,6 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::findOrFail($id);
         $transaction->update($request->validated());
-//        $transaction->fill($request->validated());
-//        $transaction->save();
 
         return Redirect::route('transactions.index')->with('status', 'transaction-updated');
     }
@@ -95,6 +93,8 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        $transaction->delete();
+        return Redirect::route('transactions.index');
     }
 }
