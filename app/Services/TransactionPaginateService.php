@@ -7,10 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TransactionPaginateService
 {
-    public  function paginate(Request $request): LengthAwarePaginator
+    public  function paginate(Request $request, ApiService $service): LengthAwarePaginator
     {
-        $transactions = $request->user()->accounts()->with('transactions')->get()->pluck('transactions')->flatten()
-            ->sortByDesc('date');
+        $transactions = $service->convertCurrency($request);
         $perPage = 5;
         $currentPage = $request->query('page', 1);
         $currentTransactions = $transactions->slice(($currentPage - 1) * $perPage, $perPage);

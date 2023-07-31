@@ -10,9 +10,9 @@
         <th class="pt-4">{{"Balance"}}</th>
             @foreach($accounts as $account)
                 <tr>
-                    <td class="p-6">{{$account -> name}}</td>
-                    <td class="p-6">{{$account -> currency}}</td>
-                    <td class="p-6">{{$account -> balance}}</td>
+                    <td class="p-6">{{$account->name}}</td>
+                    <td class="p-6">{{$account->currency->name}}</td>
+                    <td class="p-6">{{$account->balance}}</td>
                     <td>
                         <form  action="{{route('accounts.edit', ['account'=>$account->id])}}" class="p-6">
                             @csrf

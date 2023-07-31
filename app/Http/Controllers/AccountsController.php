@@ -38,11 +38,11 @@ class AccountsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountsRequest $request, TransferService $service): RedirectResponse
+    public function store(Request $request, TransferService $service): RedirectResponse
     {
       $account = Account::create([
             'name' => $request->name,
-            'currency' => $request->currency,
+            'currency_id' => $request->currency,
             'user_id' => $request->user()->id,
         ]);
       if ($request->balance > 0){

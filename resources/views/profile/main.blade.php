@@ -23,7 +23,8 @@
                     <h2 class="text-lg font-bold text-gray-900">
                         {{__("Default Currency") }}
                     </h2>
-                    <p class="pl-2 pt-1"> {{$user->default_currency}}</p>
+                    <p class="pl-2 pt-1"> {{$user->currency->name}}</p>
+
                 </div>
             </div>
 

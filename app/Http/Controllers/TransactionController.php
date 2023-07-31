@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionsCreatedRequest;
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Services\ApiService;
 use App\Services\TransactionPaginateService;
 use App\Services\TransferService;
 use Illuminate\Http\RedirectResponse;
@@ -17,10 +18,10 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
   */
-    public function index(Request $request, TransactionPaginateService $service): View
+    public function index(Request $request, TransactionPaginateService $service, ApiService $api): View
     {
         return view("transactions.index", [
-            'transactions'=> $service->paginate($request),
+            'transactions'=> $service->paginate($request, $api),
         ]);
     }
 

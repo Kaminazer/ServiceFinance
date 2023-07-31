@@ -17,7 +17,7 @@
         <x-input-label for="default_currency" :value="__('Default currency')" />
         <select name="default_currency">
             @foreach ($currencies as $currency)
-                <option value="{{ $currency->name }}">{{ $currency->name }}</option>
+                <option value="{{ $currency->id }}">{{ $currency->name }}</option>
             @endforeach
         </select>
         <x-input-error class="mt-2" :messages="$errors->get('default_currency')" />

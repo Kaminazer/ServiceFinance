@@ -9,7 +9,6 @@ class AccountsRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'currency' => ['string', 'max:255'],
         ];
     }
 }

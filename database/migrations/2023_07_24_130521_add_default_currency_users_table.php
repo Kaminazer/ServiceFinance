@@ -11,7 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table("users", function (Blueprint $table) {
-            $table->string('default_currency')->after('email_verified_at');
+            $table->bigInteger("default_currency")->unsigned()->after('email_verified_at')->default(1);
+            $table->foreign("default_currency")->references("id")->on("currencies");
         });
     }
 
@@ -21,6 +22,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['default_currency']);
             $table->dropColumn('default_currency');
         });
     }

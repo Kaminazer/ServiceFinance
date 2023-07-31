@@ -15,7 +15,7 @@
                 <td class="p-6">{{$transaction->date}}</td>
                 <td class="p-6">{{$transaction->type}}</td>
                 <td class="p-6">{{$transaction->account->name}}</td>
-                <td class="p-6">{{$transaction->sum}}</td>
+                <td class="p-6">{{$transaction->sum }}</td>
                 <td class="p-6">{{$transaction->description}}</td>
                 <td>
                     <form  action="{{route('transactions.edit', ['transaction'=>$transaction->id])}}" class="p-6">

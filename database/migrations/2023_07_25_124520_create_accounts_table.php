@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
-            $table->string('currency',255);
+            $table->foreignId('currency_id')->constrained('currencies');
             $table->timestamps();
         });
     }

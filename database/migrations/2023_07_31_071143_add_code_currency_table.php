@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table("users", function (Blueprint $table) {
-            $table->string('default_currency')->nullable()->change();
+        Schema::table("currencies", function (Blueprint $table) {
+            $table->integer('code')->after('name')->default(0);
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table("users", function (Blueprint $table) {
-            $table->string('default_currency')->change();
-        });
+        Schema::dropColumns("currencies", "code");
     }
 };

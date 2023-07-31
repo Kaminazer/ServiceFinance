@@ -12,13 +12,17 @@ class Account extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'currency',
+        'currency_id',
         'user_id',
         'balance'
     ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
     public function transactions(): HasMany
     {

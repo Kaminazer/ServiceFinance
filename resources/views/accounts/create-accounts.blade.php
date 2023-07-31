@@ -21,7 +21,7 @@
                             <x-input-label for="currency" :value="__('Currency')" />
                             <select name="currency" id="currency" class="form-select rounded">
                                 @foreach ($currencies as $currency)
-                                    <option value="{{ $currency->name }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id}}">{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
