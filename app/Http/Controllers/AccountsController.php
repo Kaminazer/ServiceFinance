@@ -38,7 +38,7 @@ class AccountsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, TransferService $service): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
       $account = Account::create([
             'name' => $request->name,
@@ -53,7 +53,7 @@ class AccountsController extends Controller
               'sum' => $request->balance,
               'description' => 'Initial balance',
           ]);
-          $service->transfer($transaction);
+          app('transferService')->initialTransfer($transaction);
       }
         return Redirect::route('accounts.index');
     }

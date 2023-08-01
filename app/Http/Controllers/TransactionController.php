@@ -19,11 +19,11 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
   */
-    public function index(Request $request, TransactionPaginateService $service, TotalBalanceService $balance, ApiService $api): View
+    public function index(Request $request, ApiService $api): View
     {
         return view("transactions.index", [
-            'transactions'=> $service->paginate($request, $api),
-            'totalBalance'=>$balance->calculate($request, $api),
+            'transactions'=>app('paginateTransaction')->paginate($request, $api),
+            'totalBalance'=>app('totalBalance')->calculate($request, $api),
         ]);
     }
 
@@ -41,7 +41,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TransactionsCreatedRequest $request, TransferService $service): RedirectResponse
+    public function store(TransactionsCreatedRequest $request): RedirectResponse
     {
         $account = Account::find($request->account);
         if (!($request->type == 'Expense' && $account->balance < $request->sum)) {
@@ -52,19 +52,10 @@ class TransactionController extends Controller
                 'sum' => $request->sum,
                 'description' => $request->description,
             ]);
-
-            $service->initialTransfer($transaction);
+            app('transferService')->initialTransfer($transaction);
             return redirect('/transactions');
         }
         return redirect()->back()->with('error', 'Insufficient funds in the account');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-
     }
 
     /**
@@ -82,7 +73,7 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TransactionsCreatedRequest $request, string $id, TransferService $service)
+    public function update(TransactionsCreatedRequest $request, string $id)
     {
         $transaction = Transaction::findOrFail($id);
         if ($request->sum > $transaction->account->balance && $request->type == "Expense"){
@@ -91,7 +82,7 @@ class TransactionController extends Controller
             $transaction->fill($request->validated());
             $oldTransaction = Transaction::findOrFail($id);
             $transaction->save();
-            $service->updateTransfer($transaction, $oldTransaction);
+            app('transferService')->updateTransfer($transaction, $oldTransaction);
             return Redirect::route('transactions.index')->with('status', 'transaction-updated');
         }
     }

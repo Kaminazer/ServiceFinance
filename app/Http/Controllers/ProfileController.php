@@ -18,13 +18,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function show(Request $request, TotalBalanceService $service, ApiService $api): View
+    public function show(Request $request, ApiService $api): View
     {
         return view('profile.main', [
             'user' => $request->user(),
             'currencies' => Currency::all(),
             'accounts' => $request->user()->accounts,
-            'totalBalance'=>$service->calculate($request, $api),
+            'totalBalance'=>app('totalBalance')->calculate($request, $api),
         ]);
     }
     public function edit(Request $request): View
