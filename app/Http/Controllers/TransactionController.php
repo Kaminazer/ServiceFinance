@@ -6,6 +6,7 @@ use App\Http\Requests\TransactionsCreatedRequest;
 use App\Models\Account;
 use App\Models\Transaction;
 use App\Services\ApiService;
+use App\Services\TotalBalanceService;
 use App\Services\TransactionPaginateService;
 use App\Services\TransferService;
 use Illuminate\Http\RedirectResponse;
@@ -18,10 +19,11 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
   */
-    public function index(Request $request, TransactionPaginateService $service, ApiService $api): View
+    public function index(Request $request, TransactionPaginateService $service, TotalBalanceService $balance, ApiService $api): View
     {
         return view("transactions.index", [
             'transactions'=> $service->paginate($request, $api),
+            'totalBalance'=>$balance->calculate($request, $api),
         ]);
     }
 
@@ -51,7 +53,7 @@ class TransactionController extends Controller
                 'description' => $request->description,
             ]);
 
-            $service->transfer($transaction);
+            $service->initialTransfer($transaction);
             return redirect('/transactions');
         }
         return redirect()->back()->with('error', 'Insufficient funds in the account');
@@ -80,18 +82,23 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TransactionsCreatedRequest $request, string $id)
+    public function update(TransactionsCreatedRequest $request, string $id, TransferService $service)
     {
         $transaction = Transaction::findOrFail($id);
-        $transaction->update($request->validated());
-
-        return Redirect::route('transactions.index')->with('status', 'transaction-updated');
+        if ($request->sum > $transaction->account->balance && $request->type == "Expense"){
+            return redirect()->back()->with('error', 'Insufficient funds in the account');
+        } else {
+            $transaction->fill($request->validated());
+            $oldTransaction = Transaction::findOrFail($id);
+            $transaction->save();
+            $service->updateTransfer($transaction, $oldTransaction);
+            return Redirect::route('transactions.index')->with('status', 'transaction-updated');
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();

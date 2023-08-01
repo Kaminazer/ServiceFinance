@@ -8,6 +8,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg">
                 <div class="max-w-xl">
+                    @if (session('error'))
+                        <div class="alert alert-danger text-sm text-red-600 space-y-1">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('transactions.update',['transaction'=>$transaction])}}" class="mt-6 space-y-6">
                         @csrf
                         @method('patch')
@@ -15,11 +20,6 @@
                             <x-input-label for="date" :value="__('Date')" />
                             <div class="relative">
                                 <input name="date" type="date" value="{{ old('date') }}"  class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm pr-10">
-                                <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                     </svg>
-                </span>
                             </div>
                         </div>
                         <div>

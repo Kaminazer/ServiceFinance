@@ -10,7 +10,7 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @if (session('error'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-sm text-red-600 space-y-1">
                             {{ session('error') }}
                         </div>
                     @endif

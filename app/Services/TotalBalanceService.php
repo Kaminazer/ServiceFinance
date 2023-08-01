@@ -2,15 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\Account;
+use Illuminate\Http\Request;
 
 class TotalBalanceService
 {
-    public function calculate(){
+    public function calculate(Request $request, ApiService $service): string
+    {
         $totalBalance = 0;
-        foreach (Account::all() as $account){
-            $totalBalance += $account->balance;
+
+        $transactions = $service->convertCurrency($request);
+        foreach ($transactions as $transaction){
+            if ($transaction->type == "Expense"){
+                $sum = floatval(str_replace(',', '', $transaction->sum));;
+                $totalBalance -= $sum;
+            } else {
+                $sum = floatval(str_replace(',', '', $transaction->sum));;
+                $totalBalance += $sum;
+            }
+            $currentBalance = $totalBalance;
         }
-        return $totalBalance;
+        return number_format($totalBalance, 2);
     }
 }
