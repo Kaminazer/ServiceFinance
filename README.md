@@ -62,7 +62,7 @@ php artisan db:seed --class=CurrenciesTableSeeder
 ```
 8. Виконайте збирання та компіляцію ресурсів проекту
 ```bash
-php npm run dev
+npm run dev
 ```
 9. Запустіть локальний сервер
 ```bash
